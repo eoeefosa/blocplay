@@ -22,7 +22,6 @@ class MyApp extends StatelessWidget {
       providers: [
         BlocProvider(
           create: (context) => PizzaBloc()..add(LoadPizzaCounter()),
-          
         )
       ],
       child: const MaterialApp(
@@ -48,6 +47,7 @@ class Home extends StatelessWidget {
       body: Center(
         child: BlocBuilder<PizzaBloc, PizzaState>(
           builder: (context, state) {
+            int text = state.props.length;
             if (state is PizzaInitial) {
               return const CircularProgressIndicator();
             }
@@ -55,9 +55,11 @@ class Home extends StatelessWidget {
               return Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  const Text(
-                    'state.Pizza.length',
-                    style: TextStyle(fontSize: 60, fontWeight: FontWeight.bold),
+                  Text(
+                    // '${state.Pizza.length}',
+                    '$text',
+                    style: const TextStyle(
+                        fontSize: 60, fontWeight: FontWeight.bold),
                   ),
                   const SizedBox(
                     height: 20,
@@ -90,6 +92,7 @@ class Home extends StatelessWidget {
         ),
       ),
       floatingActionButton: Column(
+        mainAxisAlignment: MainAxisAlignment.end,
         children: [
           FloatingActionButton(
             backgroundColor: Colors.orange[800],
@@ -120,7 +123,7 @@ class Home extends StatelessWidget {
             onPressed: () {
               context.read().add(RemovePizza(Pizza.pizza[1]));
             },
-            child: const Icon(Icons.local_pizza),
+            child: const Icon(Icons.remove),
           ),
         ],
       ),
